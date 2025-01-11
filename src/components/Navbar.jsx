@@ -4,8 +4,7 @@ import { FaRegEdit } from 'react-icons/fa';
 import { IoSearch } from 'react-icons/io5';
 import { IoMenu } from "react-icons/io5";
 import { IoIosClose } from "react-icons/io";
-
-import profilePic from "../assets/profilePic.jpg";
+import amadasun from '../assets/amadasun.jpg'
 import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
@@ -40,9 +39,10 @@ const Navbar = () => {
           <AiFillBell />
           <div>
             <img 
-              src={profilePic} 
+              onClick={() => navigation("/adminDashboard")}
+              src={amadasun} 
               alt="profile image" 
-              className="w-14 h-14 rounded-full object-cover border-2 border-gray-300"
+              className="w-14 h-14 rounded-full object-cover border-2 border-gray-300 cursor-pointer"
             />
           </div>
         </div>
