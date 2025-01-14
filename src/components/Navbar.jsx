@@ -32,9 +32,9 @@ const Navbar = () => {
           </div>
         </div>
         <div className="flex justify-center items-center gap-5 mr-3">
-          <div className="flex items-center justify-center gap-2">
+          <div onClick={() => {navigation("/createPost")}}className="flex items-center justify-center gap-2 cursor-pointer hover:underline">
             <FaRegEdit />
-            <p>write</p>
+            <p>Compose</p>
           </div>
           <AiFillBell />
           <div>

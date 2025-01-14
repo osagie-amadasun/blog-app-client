@@ -36,7 +36,7 @@ function HomePage() {
               />
               <div>
                 <div className='ml-10'>
-                  <h2 onClick={() => navigate("/blog001")} className='font-bold cursor-pointer hover:underline'>Google Search Ranks AI Spam Above Original Reporting in News Results</h2>
+                  <h2 onClick={() => navigate("/blog")} className='font-bold cursor-pointer hover:underline'>Google Search Ranks AI Spam Above Original Reporting in News Results</h2>
                   <p className='opacity-50'>Google adjusted it’s AI policies to target AI spam earlier this year, but plagiarized content still comes up higher in search results months later...</p>
                 </div>
                 <div className='flex ml-10 justify-between items-center'>
