@@ -7,8 +7,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        LeagueSpartan: ["League Spartan", "serif"],
-        Allura: ["Allura", "serif"]
+        raleway: ['Raleway', 'sans-serif'],
       }
     },
   },

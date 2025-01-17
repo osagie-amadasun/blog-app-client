@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import ReactQuill from "react-quill";
-import axios from "axios";
 import "react-quill/dist/quill.snow.css"; // Quill editor styles
+import axios from "axios";
+import sanitizeHtml from "sanitize-html";
 import Navbar from "../components/Navbar";
+
+//-----------------ADMIN FOR CREATING POSTS------------------//
 
 // raect quill modification to add an upload image option.
 const modules = {
@@ -17,24 +20,43 @@ const modules = {
 
 const CreatePost = () => {
   const [title, setTitle] = useState("");
+  const [author, setAuthor] = useState("");
   const [content, setContent] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault(); //prevent default submission behaviour from reloading the page.
+
+    //sanitize the content to prevent xss attacks
+    const sanitize = sanitizeHtml(content, {
+      allowedTags: ["b", "i", "em", "strong", "a", "img"],
+      allowedAttributes: {
+         a: ["href", "target"],
+        img: ["src", "alt"],
+      },
+      });
+
     //collect data from inputs
     const postData = {
       title,
-      content,
+      author,
+      content: sanitize,
     };
     //Send postData to your backend
     try {
-      const response = await axios.post("http://localhost:5000/api/posts/createPost", postData);
+      const response = await axios.post(
+        "http://localhost:5000/api/posts/createPost",
+        postData
+      );
       console.log("Blog post created succesfully", response.data);
       // Reset fields/clear fields after succesfull submission
       setTitle("");
+      setAuthor("");
       setContent("");
     } catch (error) {
-      console.error("Error creating post:", error.response?.data || error.message);
+      console.error(
+        "Error creating post:",
+        error.response?.data || error.message
+      );
     }
   };
 
@@ -73,8 +95,10 @@ const CreatePost = () => {
               id="author"
               type="text"
               className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
-              
+              value={author}
+              placeholder="Enter your name..."
               onChange={(e) => setAuthor(e.target.value)}
+              required
               //remember to put a "required attribute here later down the line"
             />
           </div>
@@ -86,6 +110,7 @@ const CreatePost = () => {
             >
               Content
             </label>
+
             <ReactQuill
               modules={modules}
               id="content"
