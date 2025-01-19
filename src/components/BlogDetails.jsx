@@ -40,10 +40,10 @@ const BlogDetails = () => {
   };
 
   return (
-    <div>
+    <div className="container mx-auto">
       <Navbar />
       {blog && (
-        <div>
+        <div className="bg-yellow-300 rounded-3xl mt-10 px-4 py-8">
           <h1 className="text-2xl font-bold">{blog.title}</h1>
           <p className="text-gray-700">
             Published on {new Date(blog.createdAt).toLocaleDateString()}
