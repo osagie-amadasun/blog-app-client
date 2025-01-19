@@ -4,8 +4,8 @@ import WelcomePage from './pages/WelcomePage'
 import HomePage from './pages/HomePage'
 import AuthenticationPage from './pages/AuthenticationPage'
 import AdminDashboard from './pages/AdminDashboard'
-import BlogPage from './pages/BlogPage'
 import CreatePost from './pages/CreatePost'
+import BlogDetails from './components/BlogDetails'
 
 function App() {
   return (
@@ -16,7 +16,7 @@ function App() {
             <Route path='/' element={<HomePage />} />
             <Route path='/adminDashboard' element={<AdminDashboard />} />
             <Route path='/userAuthentication' element={<AuthenticationPage />} />
-            <Route path='/blog' element={<BlogPage />} />
+            <Route path='/detailedBlog/:id' element={<BlogDetails />} />
             <Route path='/createPost' element={<CreatePost />} />
           </Routes>
         </Router>

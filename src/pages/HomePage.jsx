@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../components/Navbar";
 import axios from "axios";
+import Navbar from "../components/Navbar";
 
 function HomePage() {
   const navigate = useNavigate();
@@ -39,7 +39,7 @@ function HomePage() {
   return (
     <div className="container mx-auto px-4 py-8">
       <Navbar />
-      <h1 className="text-3xl font-bold mt-10 mb-8">Latest Blogs</h1>
+      <h1 className="text-3xl text-white font-bold mt-10 mb-8">Latest Blogs</h1>
       <div className="space-y-6">
         {posts.map((blog) => (
           <div
@@ -55,7 +55,7 @@ function HomePage() {
             </p>
             <button
               className="mt-4 px-4 py-2 border-2 border-black rounded-xl hover:bg-white hover:text-black transition"
-              onClick={() => navigate("/blog")}
+              onClick={() => navigate(`detailedBlog/${blog.id}`)}
             >
               Read More
             </button>

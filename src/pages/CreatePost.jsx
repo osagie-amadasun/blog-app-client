@@ -63,7 +63,7 @@ const CreatePost = () => {
   return (
     <div>
       <Navbar />
-      <div className="max-w-3xl mx-auto p-6 bg-white shadow-md rounded-md mt-10">
+      <div className="max-w-3xl mx-auto p-6 bg-yellow-300 shadow-md rounded-3xl mt-10">
         <h1 className="text-2xl font-bold mb-6">Create a New Post</h1>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
@@ -76,7 +76,7 @@ const CreatePost = () => {
             <input
               id="title"
               type="text"
-              className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
+              className="mt-1 block w-full p-2 border border-gray-300 rounded-xl shadow-sm"
               placeholder="Enter a title for this post..."
               value={title}
               onChange={(e) => setTitle(e.target.value)}
@@ -94,7 +94,7 @@ const CreatePost = () => {
             <input
               id="author"
               type="text"
-              className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
+              className="mt-1 block w-full p-2 border border-gray-300 rounded-xl shadow-sm"
               value={author}
               placeholder="Enter your name..."
               onChange={(e) => setAuthor(e.target.value)}
@@ -125,7 +125,7 @@ const CreatePost = () => {
 
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white font-semibold py-2 px-4 rounded-md hover:bg-blue-700"
+            className="w-full border-2 border-black rounded-xl hover:bg-white hover:text-black transition"
           >
             Publish Post
           </button>
