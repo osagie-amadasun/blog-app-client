@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+// const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -12,6 +13,7 @@ const Signup = () => {
     password: "",
   });
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -23,14 +25,27 @@ const Signup = () => {
       const endpoint = isSignup
         ? "http://localhost:5000/api/users/signup"
         : "http://localhost:5000/api/users/login";
+        //interesting refactoring idea i saw from some guy online but didn't quite work well in my case:
+        //const endpoint = `${API_BASE_URL}/users/${isSignup ? "signup" : "login"}`;
       const response = await axios.post(endpoint, formData);
-
-      console.log("Signup/Login successful", response.data);
+      if (!formData.email.includes("@")) {
+        setError("Please enter a valid email address.");
+        return;
+      }
+      if (formData.password.length < 6) {
+        setError("Password must be at least 6 characters.");
+        return;
+      }
+      console.log("Login successful", response.data);
+      //store token in local storage
+      localStorage.setItem("token", response.data.token);
       // Reset fields/clear fields after succesfull submission
       setFormData({ name: "", email: "", password: "" });
       navigate("/");
     } catch (err) {
-      setError(err.response?.data?.message || "Something went wrong");
+      setError(err.response?.data?.message || "Please use a valid email and password.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -99,10 +114,12 @@ const Signup = () => {
           <button
             type="submit"
             className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition"
+            disabled={loading}
           >
-            {isSignup ? "Signup" : "Login"}
+            {loading ? "Processing..." : isSignup ? "Signup" : "Login"}
           </button>
         </form>
+
         <p className="text-sm text-gray-600 mt-4 text-center">
           {isSignup ? "Already have an account?" : "Don't have an account?"}{" "}
           <button
