@@ -23,8 +23,8 @@ const Signup = () => {
     e.preventDefault();
     try {
       const endpoint = isSignup
-        ? "http://localhost:5000/api/users/signup"
-        : "http://localhost:5000/api/users/login";
+        ? "https://blog-app-server-e905.onrender.com/api/users/signup"
+        : "https://blog-app-server-e905.onrender.com/api/users/login";
         //interesting refactoring idea i saw from some guy online but didn't quite work well in my case:
         //const endpoint = `${API_BASE_URL}/users/${isSignup ? "signup" : "login"}`;
       const response = await axios.post(endpoint, formData);

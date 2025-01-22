@@ -44,7 +44,7 @@ const CreatePost = () => {
     //Send postData to your backend
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/posts/createPost",
+        "https://blog-app-server-e905.onrender.com/api/posts/createPost",
         postData
       );
       console.log("Blog post created succesfully", response.data);
