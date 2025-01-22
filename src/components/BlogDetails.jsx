@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Navbar from "./Navbar";
 import {jwtDecode} from "jwt-decode";
-import CommentsSection from "./CommentsSection";
 
 const BlogDetails = () => {
   const id = useParams().id;

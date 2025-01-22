@@ -13,7 +13,7 @@ function HomePage() {
   const fetchBlogs = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/posts/getPosts"
+        "https://blog-app-server-e905.onrender.com/api/posts/getPosts"
       );
       setPosts(response.data.posts);
       setLoading(false);
