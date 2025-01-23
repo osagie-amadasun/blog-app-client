@@ -26,7 +26,7 @@ const BlogDetails = () => {
   const fetchSingleBlog = async () => {
     try {
       const result = await axios.get(
-        `https://blog-app-server-e905.onrender.com/api/posts/getPost/${id}`
+        `https://blog-app-server-0i1w.onrender.com/api/posts/getPost/${id}`
       );
       setBlog(result.data.post);
     } catch (error) {
@@ -37,7 +37,7 @@ const BlogDetails = () => {
   // Fetching comments data from API
   const fetchComments = async () => {
     try {
-      const result = await axios.get(`http://localhost:5000/api/comments/getComments/${id}`);
+      const result = await axios.get(`https://blog-app-server-0i1w.onrender.com/api/comments/getComments/${id}`);
       setComments(result.data.comments);
     } catch (error) {
       console.error("Error fetching comments data: ", error);
@@ -52,7 +52,7 @@ const BlogDetails = () => {
   const handleAddComment = async () => {
     await axios
       .post(
-        `http://localhost:5000/api/comments/createComment/${id}`,
+        `https://blog-app-server-0i1w.onrender.com/api/comments/createComment/${id}`,
         {
           user: userId,
           post: id,
