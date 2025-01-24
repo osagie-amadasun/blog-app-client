@@ -1,0 +1,7 @@
+# This is a redirect file for netlify client side routing fix.
+
+/welcomeLandingPage
+/adminDashboard
+/userAuthentication
+/detailedBlog/:id
+/createPost
