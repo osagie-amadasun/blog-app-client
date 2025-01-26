@@ -23,11 +23,11 @@ const Signup = () => {
     e.preventDefault();
     try {
       const endpoint = isSignup
-        ? "https://blog-app-server-0i1w.onrender.com/api/users/signup"
-        : "https://blog-app-server-0i1w.onrender.com/api/users/login";
-        //interesting refactoring idea i saw from some guy online but didn't quite work well in my case:
-        //const endpoint = `${API_BASE_URL}/users/${isSignup ? "signup" : "login"}`;
+        ? "http://localhost:5000/api/users/signup"
+        : "http://localhost:5000/api/users/login";
       const response = await axios.post(endpoint, formData);
+  
+      // Validation checks
       if (!formData.email.includes("@")) {
         setError("Please enter a valid email address.");
         return;
@@ -36,11 +36,10 @@ const Signup = () => {
         setError("Password must be at least 6 characters.");
         return;
       }
-      console.log("Login successful", response.data);
-      //store token in local storage
+  
+      console.log("Authentication successful", response.data);
+      // Store token and navigate to home
       localStorage.setItem("token", response.data.token);
-      // Reset fields/clear fields after succesfull submission
-      setFormData({ name: "", email: "", password: "" });
       navigate("/");
     } catch (err) {
       setError(err.response?.data?.message || "Please use a valid email and password.");
@@ -48,10 +47,11 @@ const Signup = () => {
       setLoading(false);
     }
   };
+  
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded shadow-md w-96">
+    <div className="flex items-center justify-center min-h-screen bg-gray-700 ">
+      <div className="bg-yellow-300 p-8 rounded-3xl shadow-md w-96 animate-fade-in">
         <h2 className="text-2xl font-bold mb-4">
           {isSignup ? "Signup" : "Login"}
         </h2>
@@ -70,7 +70,7 @@ const Signup = () => {
                 type="text"
                 name="name"
                 id="name"
-                className="mt-1 w-full border-gray-300 rounded-md shadow-sm"
+                className="mt-1 w-full p-2 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-700"
                 value={formData.name}
                 onChange={handleInputChange}
                 required
@@ -88,7 +88,7 @@ const Signup = () => {
               type="email"
               name="email"
               id="email"
-              className="mt-1 w-full border-gray-300 rounded-md shadow-sm"
+              className="mt-1 w-full p-2 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-700"
               value={formData.email}
               onChange={handleInputChange}
               required
@@ -105,7 +105,7 @@ const Signup = () => {
               type="password"
               name="password"
               id="password"
-              className="mt-1 w-full border-gray-300 rounded-md shadow-sm"
+              className="mt-1 w-full p-2 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-700"
               value={formData.password}
               onChange={handleInputChange}
               required
@@ -113,7 +113,7 @@ const Signup = () => {
           </div>
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition"
+            className="w-full px-4 py-2 border-2 border-black rounded-xl hover:bg-black hover:text-white transition-transform hover:scale-105"
             disabled={loading}
           >
             {loading ? "Processing..." : isSignup ? "Signup" : "Login"}

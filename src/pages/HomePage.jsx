@@ -13,7 +13,7 @@ function HomePage() {
   const fetchBlogs = async () => {
     try {
       const response = await axios.get(
-        "https://blog-app-server-0i1w.onrender.com/api/posts/getPosts"
+        "http://localhost:5000/api/posts/getPosts"
       );
       setPosts(response.data.posts);
       setLoading(false);
@@ -37,16 +37,26 @@ function HomePage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className=" mx-auto px-4 py-3 min-h-screen w-full h-full bg-[#191a1a]" style={{
+      backgroundImage: `
+        linear-gradient(0deg, transparent 24%, rgba(114, 114, 114, 0.3) 25%, rgba(114, 114, 114, 0.3) 26%, transparent 27%, transparent 74%, rgba(114, 114, 114, 0.3) 75%, rgba(114, 114, 114, 0.3) 76%, transparent 77%, transparent),
+        linear-gradient(90deg, transparent 24%, rgba(114, 114, 114, 0.3) 25%, rgba(114, 114, 114, 0.3) 26%, transparent 27%, transparent 74%, rgba(114, 114, 114, 0.3) 75%, rgba(114, 114, 114, 0.3) 76%, transparent 77%, transparent)
+      `,
+      backgroundSize: "55px 55px",
+    }}>
       <Navbar />
       <h1 className="text-3xl text-white font-bold mt-10 mb-8">Latest Blogs</h1>
       <div className="space-y-6">
-        {posts.map((blog) => (
+        {posts.map((blog, index) => (
           <div
             key={blog.id}
-            className="p-6 border rounded-3xl shadow-sm bg-yellow-300 hover:shadow-md transition"
+            className={`p-6 border rounded-3xl shadow-sm bg-yellow-300 hover:shadow-md transition animate-fade-in opacity-0`}
+            style={{ animationDelay: `${index * 0.2}s` }}
           >
             <h2 className="text-2xl font-semibold">{blog.title}</h2>
+            <p className="text-sm font-medium">
+              By {blog.user?.name || "Unknown Author"}
+            </p>
             <p className="text-gray-600 text-sm">
               Published on {new Date(blog.createdAt).toLocaleDateString()}
             </p>
@@ -54,7 +64,7 @@ function HomePage() {
               {blog.content.slice(0, 150)}...
             </p>
             <button
-              className="mt-4 px-4 py-2 border-2 border-black rounded-xl hover:bg-white hover:text-black transition"
+              className="mt-4 px-4 py-2 border-2 border-black rounded-xl hover:bg-black hover:text-white transition-transform hover:scale-105"
               onClick={() => navigate(`detailedBlog/${blog.id}`)}
             >
               Read More
