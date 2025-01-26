@@ -50,7 +50,13 @@ const Signup = () => {
   
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-700 ">
+    <div className=" mx-auto flex items-center justify-center px-4 py-3 min-h-screen w-full h-full bg-[#191a1a]" style={{
+      backgroundImage: `
+        linear-gradient(0deg, transparent 24%, rgba(114, 114, 114, 0.3) 25%, rgba(114, 114, 114, 0.3) 26%, transparent 27%, transparent 74%, rgba(114, 114, 114, 0.3) 75%, rgba(114, 114, 114, 0.3) 76%, transparent 77%, transparent),
+        linear-gradient(90deg, transparent 24%, rgba(114, 114, 114, 0.3) 25%, rgba(114, 114, 114, 0.3) 26%, transparent 27%, transparent 74%, rgba(114, 114, 114, 0.3) 75%, rgba(114, 114, 114, 0.3) 76%, transparent 77%, transparent)
+      `,
+      backgroundSize: "55px 55px",
+    }}>
       <div className="bg-yellow-300 p-8 rounded-3xl shadow-md w-96 animate-fade-in">
         <h2 className="text-2xl font-bold mb-4">
           {isSignup ? "Signup" : "Login"}

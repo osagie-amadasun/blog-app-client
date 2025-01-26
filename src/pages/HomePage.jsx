@@ -50,7 +50,7 @@ function HomePage() {
         {posts.map((blog, index) => (
           <div
             key={blog.id}
-            className={`p-6 border rounded-3xl shadow-sm bg-yellow-300 hover:shadow-md transition animate-fade-in opacity-0`}
+            className={`p-4 border rounded-3xl shadow-sm bg-yellow-300 hover:shadow-md transition animate-fade-in opacity-0`}
             style={{ animationDelay: `${index * 0.2}s` }}
           >
             <h2 className="text-2xl font-semibold">{blog.title}</h2>
