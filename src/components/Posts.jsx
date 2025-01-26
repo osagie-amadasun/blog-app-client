@@ -3,7 +3,7 @@ import axios from "axios"
 
 function Posts({ title, body, author, date }) {
   const [posts, setPosts] = useState([]);
-  const API_URL = "http://localhost:5000/api/posts/getPosts";
+  const API_URL = "https://blog-app-server-0i1w.onrender.com/api/posts/getPosts";
   const getPost = () => {
     axios.get(API_URL)
     .then(res => {

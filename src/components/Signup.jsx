@@ -23,8 +23,8 @@ const Signup = () => {
     e.preventDefault();
     try {
       const endpoint = isSignup
-        ? "http://localhost:5000/api/users/signup"
-        : "http://localhost:5000/api/users/login";
+        ? "https://blog-app-server-0i1w.onrender.com/api/users/signup"
+        : "https://blog-app-server-0i1w.onrender.com/api/users/login";
       const response = await axios.post(endpoint, formData);
   
       // Validation checks
