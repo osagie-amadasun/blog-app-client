@@ -17,6 +17,14 @@ function HomePage() {
       );
       setPosts(response.data.posts);
       setLoading(false);
+      if (!loading && posts.length === 0) {
+        return (
+          <div className="text-white text-center mt-10">
+            <h1 className="text-3xl font-bold">No blogs found.</h1>
+            <p className="mt-4">Check back later or add a new blog!</p>
+          </div>
+        );
+      }
     } catch (error) {
       console.error(error);
       setError("Failed to fetch blogs.");
@@ -37,13 +45,16 @@ function HomePage() {
   }
 
   return (
-    <div className=" mx-auto px-4 py-3 min-h-screen w-full h-full bg-[#191a1a]" style={{
-      backgroundImage: `
+    <div
+      className=" mx-auto px-4 py-3 min-h-screen w-full h-full bg-[#191a1a]"
+      style={{
+        backgroundImage: `
         linear-gradient(0deg, transparent 24%, rgba(114, 114, 114, 0.3) 25%, rgba(114, 114, 114, 0.3) 26%, transparent 27%, transparent 74%, rgba(114, 114, 114, 0.3) 75%, rgba(114, 114, 114, 0.3) 76%, transparent 77%, transparent),
         linear-gradient(90deg, transparent 24%, rgba(114, 114, 114, 0.3) 25%, rgba(114, 114, 114, 0.3) 26%, transparent 27%, transparent 74%, rgba(114, 114, 114, 0.3) 75%, rgba(114, 114, 114, 0.3) 76%, transparent 77%, transparent)
       `,
-      backgroundSize: "55px 55px",
-    }}>
+        backgroundSize: "55px 55px",
+      }}
+    >
       <Navbar />
       <h1 className="text-3xl text-white font-bold mt-10 mb-8">Latest Blogs</h1>
       <div className="space-y-6">
