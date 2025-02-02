@@ -13,21 +13,13 @@ function HomePage() {
   const fetchBlogs = async () => {
     try {
       const response = await axios.get(
-        "https://blog-app-server-0i1w.onrender.com/api/posts/getPosts"
+        "https://blog-app-server-0i1w.onrender.com:5000/api/posts/getPosts"
       );
       setPosts(response.data.posts);
-      setLoading(false);
-      if (!loading && posts.length === 0) {
-        return (
-          <div className="text-white text-center mt-10">
-            <h1 className="text-3xl font-bold">No blogs found.</h1>
-            <p className="mt-4">Check back later or add a new blog!</p>
-          </div>
-        );
-      }
     } catch (error) {
       console.error(error);
       setError("Failed to fetch blogs.");
+    } finally {
       setLoading(false);
     }
   };
@@ -57,32 +49,47 @@ function HomePage() {
     >
       <Navbar />
       <h1 className="text-3xl text-white font-bold mt-10 mb-8">Latest Blogs</h1>
-      <div className="space-y-6">
-        {posts.map((blog, index) => (
-          <div
-            key={blog.id}
-            className={`p-4 border rounded-3xl shadow-sm bg-yellow-300 hover:shadow-md transition animate-fade-in opacity-0`}
-            style={{ animationDelay: `${index * 0.2}s` }}
-          >
-            <h2 className="text-2xl font-semibold">{blog.title}</h2>
-            <p className="text-sm font-medium">
-              By {blog.user?.name || "Unknown Author"}
-            </p>
-            <p className="text-gray-600 text-sm">
-              Published on {new Date(blog.createdAt).toLocaleDateString()}
-            </p>
-            <p className="mt-4 text-gray-700">
-              {blog.content.slice(0, 150)}...
-            </p>
-            <button
-              className="mt-4 px-4 py-2 border-2 border-black rounded-xl hover:bg-black hover:text-white transition-transform hover:scale-105"
-              onClick={() => navigate(`detailedBlog/${blog.id}`)}
+
+      {/* Loading State */}
+      {loading && <div className="text-center">Loading blogs...</div>}
+      {/* Error State */}
+      {error && <div className="text-red-500 text-center">{error}</div>}
+      {/* No Blogs Found */}
+      {!loading && !error && posts.length === 0 && (
+        <div className="text-center mt-4">
+          <p className="text-gray-500">No blogs found. Check back later!</p>
+        </div>
+      )}
+
+      {/* Render Blogs (if they exist) */}
+      {!loading && !error && posts.length > 0 && (
+        <div className="space-y-6">
+          {posts.map((blog, index) => (
+            <div
+              key={blog.id}
+              className={`p-4 border rounded-3xl shadow-sm bg-yellow-300 hover:shadow-md transition animate-fade-in opacity-0`}
+              style={{ animationDelay: `${index * 0.2}s` }}
             >
-              Read More
-            </button>
-          </div>
-        ))}
-      </div>
+              <h2 className="text-2xl font-semibold">{blog.title}</h2>
+              <p className="text-sm font-medium">
+                By {blog.user?.name || "Unknown Author"}
+              </p>
+              <p className="text-gray-600 text-sm">
+                Published on {new Date(blog.createdAt).toLocaleDateString()}
+              </p>
+              <p className="mt-4 text-gray-700">
+                {blog.content.slice(0, 150)}...
+              </p>
+              <button
+                className="mt-4 px-4 py-2 border-2 border-black rounded-xl hover:bg-black hover:text-white transition-transform hover:scale-105"
+                onClick={() => navigate(`detailedBlog/${blog.id}`)}
+              >
+                Read More
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

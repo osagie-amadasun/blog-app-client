@@ -31,7 +31,7 @@ const BlogDetails = () => {
   const fetchSingleBlog = async () => {
     try {
       const result = await axios.get(
-        `https://blog-app-server-0i1w.onrender.com/api/posts/getPost/${id}`
+        `http://localhost:5000/api/posts/getPost/${id}`
       );
       setBlog(result.data.post);
     } catch (error) {
@@ -43,7 +43,7 @@ const BlogDetails = () => {
   const fetchComments = async () => {
     try {
       const result = await axios.get(
-        `https://blog-app-server-0i1w.onrender.com/api/comments/getComments/${id}`
+        `http://localhost:5000/api/comments/getComments/${id}`
       );
       setComments(result.data.comments);
     } catch (error) {
@@ -59,7 +59,7 @@ const BlogDetails = () => {
   const handleAddComment = async () => {
     await axios
       .post(
-        `https://blog-app-server-0i1w.onrender.com/api/comments/createComment/${id}`,
+        `https://blog-app-server-0i1w.onrender.com:5000/api/comments/createComment/${id}`,
         {
           user: userId,
           post: id,
@@ -85,7 +85,7 @@ const BlogDetails = () => {
   const handleDeleteComment = async (commentId) => {
     await axios
       .delete(
-        `http://localhost:5000/api/comments/deleteComment/${commentId}`,
+        `https://blog-app-server-0i1w.onrender.com:5000/api/comments/deleteComment/${commentId}`,
 
         {
           headers: {
@@ -105,7 +105,7 @@ const BlogDetails = () => {
   const handleEditComment = async (commentId, updatedComment) => {
     try {
       await axios.put(
-        `http://localhost:5000/api/comments/updateComment/${commentId}`,
+        `https://blog-app-server-0i1w.onrender.com:5000/api/comments/updateComment/${commentId}`,
         { message: updatedComment },
         {
           headers: {

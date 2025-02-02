@@ -12,7 +12,7 @@ function WelcomePage() {
         <div>
           <button 
             onClick={() => navigate("/userAuthentication")} 
-            className='px-4 py-2 border-2 border-white text-white hover:bg-white hover:text-black transitionp-2 sm:p-3 mt-3 sm:mt-5 rounded-3xl text-sm sm:text-base'
+            className='flex items-center justify-center gap-2 cursor-pointer border-2 p-2 rounded-xl text-white hover:bg-white hover:text-black transition-transform hover:scale-105'
           >
             Sign Up
           </button>
