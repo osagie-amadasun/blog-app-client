@@ -4,6 +4,8 @@ import { useParams } from "react-router-dom";
 import Navbar from "./Navbar";
 import { jwtDecode } from "jwt-decode";
 
+const VITE_API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 const BlogDetails = () => {
   const id = useParams().id;
   const [blog, setBlog] = useState({});
@@ -31,7 +33,7 @@ const BlogDetails = () => {
   const fetchSingleBlog = async () => {
     try {
       const result = await axios.get(
-        `http://localhost:5000/api/posts/getPost/${id}`
+        `${VITE_API_BASE_URL}/api/posts/getPost/${id}`
       );
       setBlog(result.data.post);
     } catch (error) {
@@ -43,7 +45,7 @@ const BlogDetails = () => {
   const fetchComments = async () => {
     try {
       const result = await axios.get(
-        `http://localhost:5000/api/comments/getComments/${id}`
+        `${VITE_API_BASE_URL}/api/comments/getComments/${id}`
       );
       setComments(result.data.comments);
     } catch (error) {
@@ -59,7 +61,7 @@ const BlogDetails = () => {
   const handleAddComment = async () => {
     await axios
       .post(
-        `https://blog-app-server-0i1w.onrender.com:5000/api/comments/createComment/${id}`,
+        `${VITE_API_BASE_URL}/api/comments/createComment/${id}`,
         {
           user: userId,
           post: id,
@@ -85,7 +87,7 @@ const BlogDetails = () => {
   const handleDeleteComment = async (commentId) => {
     await axios
       .delete(
-        `https://blog-app-server-0i1w.onrender.com:5000/api/comments/deleteComment/${commentId}`,
+        `${VITE_API_BASE_URL}/api/comments/deleteComment/${commentId}`,
 
         {
           headers: {
@@ -105,7 +107,7 @@ const BlogDetails = () => {
   const handleEditComment = async (commentId, updatedComment) => {
     try {
       await axios.put(
-        `https://blog-app-server-0i1w.onrender.com:5000/api/comments/updateComment/${commentId}`,
+        `${VITE_API_BASE_URL}/api/comments/updateComment/${commentId}`,
         { message: updatedComment },
         {
           headers: {

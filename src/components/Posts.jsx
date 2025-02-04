@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios"
 
+const VITE_API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 function Posts({ title, body, author, date }) {
   const [posts, setPosts] = useState([]);
-  const API_URL = "https://blog-app-server-0i1w.onrender.com:5000/api/posts/getPosts";
   const getPost = () => {
-    axios.get(API_URL)
+    axios.get(VITE_API_BASE_URL)
     .then(res => {
       console.log(res.data.posts[1].body);
       setPosts(res.data.posts[1].body);
@@ -17,7 +18,7 @@ function Posts({ title, body, author, date }) {
 
   useEffect(() => {
     async function getData() {
-      const response = await fetch(API_URL, {signal: controller.signal});
+      const response = await fetch(VITE_API_BASE_URL, {signal: controller.signal});
       const data = await response.json();
       setPosts(data);
     }

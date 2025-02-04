@@ -6,6 +6,7 @@ import sanitizeHtml from "sanitize-html";
 import Navbar from "../components/Navbar";
 import { jwtDecode } from "jwt-decode";
 
+const VITE_API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 //-----------------ADMIN FOR CREATING POSTS------------------//
 
 // raect quill modification to add an upload image option.
@@ -59,7 +60,7 @@ const CreatePost = () => {
     //Send postData to your backend
     try {
       const response = await axios.post(
-        `https://blog-app-server-0i1w.onrender.com:5000/api/posts/createPost/${userId}`,
+        `${VITE_API_BASE_URL}/api/posts/createPost/${userId}`,
         postData
       );
       console.log("Blog post created succesfully", response.data);

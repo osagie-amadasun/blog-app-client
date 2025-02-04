@@ -4,6 +4,8 @@ import * as Yup from "yup";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+const VITE_API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 const Signup = () => {
   const navigate = useNavigate();
   const [isSignup, setIsSignup] = useState(true);
@@ -32,8 +34,8 @@ const Signup = () => {
       setError("");
       try {
         const endpoint = isSignup
-          ? "https://blog-app-server-0i1w.onrender.com:5000/api/users/signup"
-          : "https://blog-app-server-0i1w.onrender.com:5000/api/users/login";
+          ? `${VITE_API_BASE_URL}/api/users/signup`
+          : `${VITE_API_BASE_URL}/api/users/login`;
         const response = await axios.post(endpoint, values);
 
         localStorage.setItem("token", response.data.token);

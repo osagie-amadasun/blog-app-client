@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../components/Navbar";
 
+const VITE_API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 function HomePage() {
   const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
@@ -13,7 +15,7 @@ function HomePage() {
   const fetchBlogs = async () => {
     try {
       const response = await axios.get(
-        "https://blog-app-server-0i1w.onrender.com:5000/api/posts/getPosts"
+        `${VITE_API_BASE_URL}/api/posts/getPosts`
       );
       setPosts(response.data.posts);
     } catch (error) {
