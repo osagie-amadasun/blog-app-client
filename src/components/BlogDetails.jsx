@@ -179,7 +179,7 @@ const BlogDetails = () => {
 
 
             <div>
-              {/* Options button for the logged-in user only ================== */}
+              {/* Options button logic*/}
               <div
                 onClick={() => setIsOpen((prev) => !prev)}
               >
@@ -195,7 +195,7 @@ const BlogDetails = () => {
                         {/* Edit Button */}
                         <button
                           onClick={() =>
-                            navigate("/create-post", { state: { blog } })
+                            navigate("/createPost", { state: { blog } })
                           }
                           className="px-4 py-2 border-2 border-black rounded-xl hover:bg-black hover:text-white transition-transform hover:scale-105"
                         >

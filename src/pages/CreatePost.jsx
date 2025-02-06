@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css"; // Quill editor styles
 import axios from "axios";
@@ -21,14 +22,16 @@ const modules = {
 };
 
 const CreatePost = () => {
-  const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
-  const [content, setContent] = useState("");
+  const location = useLocation();
+  const existingBlog = location.state?.blog; // Check if there is pre-filled data from the blog post to edit.
+  const [title, setTitle] = useState(existingBlog?.title || "");
+  const [author, setAuthor] = useState(existingBlog?.author || "");
+  const [content, setContent] = useState(existingBlog?.content || "");
 
   //Get user id from JWT token
   const token = localStorage.getItem("token");
   let userId;
-//----------------------------------------------
+  //----------------------------------------------
   if (token) {
     try {
       const decodedToken = jwtDecode(token);
@@ -39,51 +42,69 @@ const CreatePost = () => {
   }
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); //prevent default submission behaviour from reloading the page.
-
-    //sanitize the content to prevent xss attacks
+    e.preventDefault();
+  
+    // Sanitize the content to prevent XSS attacks------still kinda buggy sha
     const sanitize = sanitizeHtml(content, {
       allowedTags: ["b", "i", "em", "strong", "a", "img"],
       allowedAttributes: {
-         a: ["href", "target"],
+        a: ["href", "target"],
         img: ["src", "alt"],
       },
-      });
-
-    //collect data from inputs
+    });
+  
+    // Collect data from inputs
     const postData = {
       title,
       author,
       content: sanitize,
-      userId: userId
+      userId: userId,
     };
-    //Send postData to your backend
+  
     try {
-      const response = await axios.post(
-        `${VITE_API_BASE_URL}/api/posts/createPost/${userId}`,
-        postData
-      );
-      console.log("Blog post created succesfully", response.data);
-      // Reset fields/clear fields after succesfull submission
+      let response;
+      
+      if (existingBlog) {
+        // 🔹 EDIT Mode: Send a PUT request to update the post
+        response = await axios.put(
+          `${VITE_API_BASE_URL}/api/posts/updatePost/${existingBlog.id}`,
+          postData
+        );
+        console.log("Blog post updated successfully", response.data);
+      } else {
+        // 🔹 CREATE Mode: Send a POST request to create a new post
+        response = await axios.post(
+          `${VITE_API_BASE_URL}/api/posts/createPost/${userId}`,
+          postData
+        );
+        console.log("Blog post created successfully", response.data);
+      }
+  
+      // Reset fields/clear fields after successful submission
       setTitle("");
       setAuthor("");
       setContent("");
+  
     } catch (error) {
       console.error(
-        "Error creating post:",
+        "Error creating/updating post:",
         error.response?.data || error.message
       );
     }
   };
+  
 
   return (
-    <div className=" mx-auto px-4 py-3 w-full min-h-screen bg-[#191a1a]" style={{
-      backgroundImage: `
+    <div
+      className=" mx-auto px-4 py-3 w-full min-h-screen bg-[#191a1a]"
+      style={{
+        backgroundImage: `
         linear-gradient(0deg, transparent 24%, rgba(114, 114, 114, 0.3) 25%, rgba(114, 114, 114, 0.3) 26%, transparent 27%, transparent 74%, rgba(114, 114, 114, 0.3) 75%, rgba(114, 114, 114, 0.3) 76%, transparent 77%, transparent),
         linear-gradient(90deg, transparent 24%, rgba(114, 114, 114, 0.3) 25%, rgba(114, 114, 114, 0.3) 26%, transparent 27%, transparent 74%, rgba(114, 114, 114, 0.3) 75%, rgba(114, 114, 114, 0.3) 76%, transparent 77%, transparent)
       `,
-      backgroundSize: "55px 55px",
-    }}>
+        backgroundSize: "55px 55px",
+      }}
+    >
       <Navbar />
       <div className="max-w-3xl mx-auto p-6 bg-yellow-300 shadow-md rounded-3xl mt-10 animate-fade-in">
         <h1 className="text-2xl font-bold mb-6">Create a New Post</h1>
