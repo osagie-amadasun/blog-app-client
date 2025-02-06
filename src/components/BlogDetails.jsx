@@ -1,18 +1,21 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 import { jwtDecode } from "jwt-decode";
+import { CgOptions } from "react-icons/cg";
 
 const VITE_API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const BlogDetails = () => {
+  const navigate = useNavigate();
   const id = useParams().id;
   const [blog, setBlog] = useState({});
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [editingCommentId, setEditingCommentId] = useState(null);
   const [editedMessage, setEditedMessage] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
 
   // ! Get token from storage
   const token = localStorage.getItem("token");
@@ -36,6 +39,7 @@ const BlogDetails = () => {
         `${VITE_API_BASE_URL}/api/posts/getPost/${id}`
       );
       setBlog(result.data.post);
+      console.log(result.data.post);
     } catch (error) {
       console.error("Error fetching blog data: ", error);
     }
@@ -128,10 +132,21 @@ const BlogDetails = () => {
       // Reset editing state
       setEditingCommentId(null);
       setEditedMessage("");
-
-
     } catch (error) {
       console.error("Error updating comment:", error);
+    }
+  };
+
+  const handleDeletePost = async () => {
+    try {
+      await axios.delete(`${VITE_API_BASE_URL}/api/posts/deletePost/${id}?userId=${userId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      navigate("/"); // Redirect to home page
+    } catch (error) {
+      console.error("Error deleting post:", error);
     }
   };
 
@@ -149,14 +164,60 @@ const BlogDetails = () => {
       <Navbar />
       {blog && (
         <div className="bg-yellow-300 rounded-3xl mt-10 px-4 py-8">
-          <h1 className="text-2xl font-bold">{blog.title}</h1>
-          <p className="text-sm font-medium">
-            created by {blog.user?.name || "Anonymous"}
-          </p>
-          <p className="text-gray-700">
-            Published on {new Date(blog.createdAt).toLocaleDateString()}
-          </p>
-          <p className="mt-4">{blog.content}</p>
+          <div className="flex justify-between">
+            <div>
+              <h1 className="text-2xl font-bold">{blog.title}</h1>
+              <p className="text-sm font-medium">
+                created by {blog.user?.name || "Anonymous"}
+              </p>
+              <p className="text-gray-700">
+                Published on {new Date(blog.createdAt).toLocaleDateString()}
+              </p>
+              <p className="mt-4">{blog.content}</p>
+            </div>
+
+
+
+            <div>
+              {/* Options button for the logged-in user only ================== */}
+              <div
+                onClick={() => setIsOpen((prev) => !prev)}
+              >
+                <CgOptions className="text-xl left-4 cursor-pointer" />
+              </div>
+
+              {/* ATTENTION NEEDED DESPERATELY IN THIS CODE BLOCK!!! */}
+              <div>
+                {isOpen && (
+                  <div className="absolute right-0 mt-2 p-3 bg-white border-2 border-black rounded-xl shadow-lg">
+                    {blog.user?.id === userId && (
+                      <div className="">
+                        {/* Edit Button */}
+                        <button
+                          onClick={() =>
+                            navigate("/create-post", { state: { blog } })
+                          }
+                          className="px-4 py-2 border-2 border-black rounded-xl hover:bg-black hover:text-white transition-transform hover:scale-105"
+                        >
+                          Edit
+                        </button>
+
+                        {/* Delete Button */}
+                        <button
+                          onClick={handleDeletePost} // Define a function for deletion
+                          className="px-4 py-2 border-2 border-black rounded-xl hover:bg-red-500 hover:text-white transition-transform hover:scale-105"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+
           <div className="mt-40">
             <h2 className="text-2xl font-bold">Comments</h2>
             {/* "Add Comment" section */}
