@@ -39,7 +39,6 @@ const BlogDetails = () => {
         `${VITE_API_BASE_URL}/api/posts/getPost/${id}`
       );
       setBlog(result.data.post);
-      console.log(result.data.post);
     } catch (error) {
       console.error("Error fetching blog data: ", error);
     }
